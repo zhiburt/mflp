@@ -18,3 +18,7 @@ The shell can be started by running the script.
 ./shell.lua
 ```
 
+## References
+
+- https://brennan.io/2015/01/16/write-a-shell-in-c/ — I was lucky to have read it before the outset
+- https://github.com/danistefanovic/build-your-own-x#build-your-own-shell — There was discovered the list of other tutorials here
