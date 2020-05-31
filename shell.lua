@@ -4,6 +4,7 @@ local unistd = require 'posix.unistd'
 local posix = require 'posix'
 local wait = require 'posix.sys.wait'
 local signal = require "posix.signal"
+local stdlib = require "posix.stdlib"
 
 signal.signal(signal.SIGINT, function(signum)
   io.write("\n")
@@ -26,7 +27,12 @@ local buildin = {
 local STATUS = 0;
 
 local function prep(line)
-    return string.gsub(line, "%$%?", STATUS)
+    return string.gsub(line, "%$([%w_?]+)", function(symbol)
+        if symbol == '?' then return STATUS
+        else
+            return stdlib.getenv(symbol) or ""
+        end
+    end)
 end
 
 local function start(program, ...)
