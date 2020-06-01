@@ -3,7 +3,7 @@
 local cfg = require 'config';
 local cfg = {
     indent_line = cfg.ident_line or function() return "> " end,
-    prompt = cfg.prompt or function() return "" end,
+    prompt = cfg.prompt or function() return "" end
 }
 
 local unistd = require 'posix.unistd'
@@ -13,18 +13,14 @@ local signal = require "posix.signal"
 local stdlib = require "posix.stdlib"
 
 signal.signal(signal.SIGINT, function(signum)
-  io.write("\n")
-  os.exit(128 + signum)
+    io.write("\n")
+    os.exit(128 + signum)
 end)
 
 local buildin = {
-    exit = function ()
-        os.exit(0)
-    end,
+    exit = function() os.exit(0) end,
     cd = function(path)
-        if path == nil then
-            return "cd: there's no given parameter"
-        end
+        if path == nil then return "cd: there's no given parameter" end
 
         unistd.chdir(path)
     end
@@ -34,7 +30,8 @@ local STATUS = 0;
 
 local function prep(line)
     return string.gsub(line, "%$([%w_?]+)", function(symbol)
-        if symbol == '?' then return STATUS
+        if symbol == '?' then
+            return STATUS
         else
             return stdlib.getenv(symbol) or ""
         end
@@ -43,7 +40,8 @@ end
 
 local function start(program, ...)
     local child, err = unistd.fork()
-    if child < 0 then return -1, err
+    if child < 0 then
+        return -1, err
     elseif child == 0 then
         local code = ({unistd.execp(program, ...)})[3]
         os.exit(code)
@@ -82,13 +80,11 @@ repeat
     local util = buildin[program];
     if util ~= nil then
         local err = util(table.unpack(params))
-        if err ~= nil then
-            print(err)
-        end
+        if err ~= nil then print(err) end
     else
         local code, err = start(program, params)
         if err ~= nil then
-            print("shell: "..err)
+            print("shell: " .. err)
             os.exit(-1)
         elseif code ~= 0 then
             local err = posix.errno(code)
