@@ -18,6 +18,31 @@ The shell can be started by running the script.
 ./shell.lua
 ```
 
+## Customization
+
+You can create a `config.lua` file in the directory beside the shell.
+
+```lua
+SHELL = {
+    ident_line = function() return os.date() .. " " end,
+    prompt = function()
+        -- http://www.patorjk.com/software/taag/#p=display&h=1&f=Star%20Wars&t=MFLP
+        return [[
+
+    .___  ___.  _______  __      .______   
+    |   \/   | |   ____||  |     |   _  \  
+    |  \  /  | |  |__   |  |     |  |_)  | 
+    |  |\/|  | |   __|  |  |     |   ___/  
+    |  |  |  | |  |     |  `----.|  |      
+    |__|  |__| |__|     |_______|| _|             
+
+]]
+    end
+}
+
+return SHELL
+```
+
 ## References
 
 - https://brennan.io/2015/01/16/write-a-shell-in-c/ — I was lucky to have read it before the outset
