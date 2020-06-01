@@ -1,5 +1,8 @@
 #!/usr/bin/lua
 
+local cfg = require 'config';
+local indent_line = cfg.ident_line or function() return "> " end
+
 local unistd = require 'posix.unistd'
 local posix = require 'posix'
 local wait = require 'posix.sys.wait'
@@ -64,7 +67,7 @@ local function split_line(line)
 end
 
 repeat
-    io.write("> ")
+    io.write(indent_line())
 
     local line = io.read("l")
     if line == nil then break end
